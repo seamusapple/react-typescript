@@ -3,6 +3,7 @@ import { Todo } from "../model";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { MdDone } from "react-icons/md";
 import { Draggable } from "react-beautiful-dnd";
+
 type Props = {
   index: number;
   todo: Todo;
@@ -42,13 +43,13 @@ const SingleTodo = ({ index, todo, todos, setTodos }: Props) => {
 
   return (
     <Draggable draggableId={todo.id.toString()} index={index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <form
-          className="todos__single"
           onSubmit={(e) => handleEdit(e, todo.id)}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
+          className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
         >
           {edit ? (
             <input
@@ -62,7 +63,6 @@ const SingleTodo = ({ index, todo, todos, setTodos }: Props) => {
           ) : (
             <span className="todos__single--text">{todo.todo}</span>
           )}
-
           <div>
             <span
               className="icon"
